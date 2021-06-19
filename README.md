@@ -1,2 +1,2 @@
-# gemstone
+# Gemstone
 Gemstone Engine

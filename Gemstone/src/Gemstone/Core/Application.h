@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Gemstone/Events/Event.h"
 
 namespace Gemstone
 {

@@ -9,3 +9,5 @@
 #else
 	#error Gemstone only supports WIndows!
 #endif
+
+#define BIT(x) (1 << x)

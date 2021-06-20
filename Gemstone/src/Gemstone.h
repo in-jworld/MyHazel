@@ -2,9 +2,10 @@
 
 // For use by Gemstone application
 
-#include "Gemstone/Application.h"
+#include "Gemstone/Core/Application.h"
+#include "Gemstone/Core/Log.h"
 
 // ------------ Entry Point ---------------
-#include "Gemstone/EntryPoint.h"
+#include "Gemstone/Core/EntryPoint.h"
 
 // ----------------------------------------

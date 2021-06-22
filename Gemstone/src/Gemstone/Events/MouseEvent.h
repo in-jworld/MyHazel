@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Gemstone
 {
 	class GEMSTONE_API MouseMovedEvent : public Event

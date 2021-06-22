@@ -1,3 +1,6 @@
 [submodule "Gemstone/vendor/spdlog"]
 	path = Gemstone/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Gemstone/vendor/GLFW"]
+	path = Gemstone/vendor/GLFW
+	url = https://github.com/thecherno/glfw

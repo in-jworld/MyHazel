@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Application.h"
+
 #ifdef GS_PLATFORM_WINDOWS
 
 extern Gemstone::Application* Gemstone::CreateApplication();

@@ -10,6 +10,12 @@ workspace "Gemstone"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Gemstone/vendor/GLFW/include"
+
+include "Gemstone/vendor/GLFW"
+
 project "Gemstone"
     location "Gemstone"
     kind "SharedLib"
@@ -17,6 +23,9 @@ project "Gemstone"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    pchheader "gspch.h"
+    pchsource "%{prj.name}/src/gspch.cpp"
 
     files
     {
@@ -27,7 +36,14 @@ project "Gemstone"
     includedirs
     {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links
+    {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -48,14 +64,17 @@ project "Gemstone"
 
     filter "configurations:Debug"
         defines "GS_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "GS_RELEASE"
+        buildoptions "/MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "GS_DIST"
+        buildoptions "/MD"
         optimize "On"
 
 
@@ -96,12 +115,15 @@ project "Sapphire"
 
     filter "configurations:Debug"
         defines "GS_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "GS_RELEASE"
+        buildoptions "/MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "GS_DIST"
+        buildoptions "/MD"
         optimize "On"

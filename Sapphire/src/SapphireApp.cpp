@@ -15,7 +15,13 @@ public:
 
 	void OnEvent(Gemstone::Event& event) override
 	{
-		GS_TRACE("{0}", event);
+		if (event.GetEventType() == Gemstone::EventType::KeyPressed)
+		{
+			Gemstone::KeyPressedEvent& e = (Gemstone::KeyPressedEvent&)event;
+			GS_TRACE("{0}, {1}", event, (char)e.GetKeyCode());
+		}
+		else
+			GS_TRACE("{0}", event);
 	}
 };
 

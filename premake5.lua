@@ -56,7 +56,7 @@ project "Gemstone"
 
     filter "system:windows" -- project properties
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"  -- windows SDK version
 
         defines
@@ -74,20 +74,19 @@ project "Gemstone"
     filter "configurations:Debug"
         defines
         {
-            "GS_DEBUG",
-            "GS_ENABLE_ASSERTS"
+            "GS_DEBUG"
         }
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "GS_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "GS_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 
@@ -118,7 +117,7 @@ project "Sapphire"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"
 
         defines
@@ -132,15 +131,15 @@ project "Sapphire"
             "GS_DEBUG",
             "GS_ENABLE_ASSERTS"
         }
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "GS_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "GS_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"

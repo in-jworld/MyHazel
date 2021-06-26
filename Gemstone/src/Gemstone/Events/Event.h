@@ -11,6 +11,8 @@ namespace Gemstone
 	* immediately gets dispatched and must be dealt with right then an there.
 	* For the future, a better strategy might be to buffer events in an event
 	* bus and process them during the "event" part of the update stage.
+	* 
+	* other kind of events: buffer event
 	*/
 
 	enum class EventType
@@ -18,7 +20,7 @@ namespace Gemstone
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -42,8 +44,7 @@ namespace Gemstone
 	{
 		friend class EventDispatcher;
 	public:
-		bool Handled = false;
-
+		bool GetHandle() const { return m_Handled; }
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
@@ -73,7 +74,6 @@ namespace Gemstone
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
 				m_Event.m_Handled = func(*(T*)&m_Event);
-				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;

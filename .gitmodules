@@ -4,3 +4,6 @@
 [submodule "Gemstone/vendor/GLFW"]
 	path = Gemstone/vendor/GLFW
 	url = https://github.com/thecherno/glfw
+[submodule "Gemstone/vendor/imgui"]
+	path = Gemstone/vendor/imgui
+	url = https://github.com/TheCherno/imgui

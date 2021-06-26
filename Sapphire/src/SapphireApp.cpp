@@ -1,5 +1,4 @@
 #include <Gemstone.h>
-#include <Gemstone/Core/EntryPoint.h>
 
 class ExampleLayer : public Gemstone::Layer
 {
@@ -26,6 +25,7 @@ public:
 	Sapphire()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Gemstone::ImGuiLayer());
 	}
 
 	~Sapphire()

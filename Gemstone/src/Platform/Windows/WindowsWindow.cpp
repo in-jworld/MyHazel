@@ -5,10 +5,12 @@
 #include "Gemstone/Events/KeyEvent.h"
 #include "Gemstone/Events/MouseEvent.h"
 
+#include <glad/glad.h>
+
 namespace Gemstone
 {
 	static bool s_GLFWInitialized = false;
-
+	
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		GS_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
@@ -42,16 +44,19 @@ namespace Gemstone
 			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
 			GS_CORE_ASSERT(success, "Could not initialize GLFW!");
-			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		GS_CORE_ASSERT(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
-		// Set GLFW callbacks
+		// Set GLFW error callback
+		glfwSetErrorCallback(GLFWErrorCallback);
+		// Set GLFW window callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -61,14 +66,12 @@ namespace Gemstone
 			WindowResizeEvent event(width, height);
 			data.EventCallback(event);
 		});
-
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
-
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -95,7 +98,13 @@ namespace Gemstone
 				}
 			}
 		});
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int character)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+			KeyTypedEvent event(character);
+			data.EventCallback(event);
+		});
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -116,7 +125,6 @@ namespace Gemstone
 				}
 			}
 		});
-
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -124,7 +132,6 @@ namespace Gemstone
 			MouseScrolledEvent event((float)xOffset, (float)yOffset);
 			data.EventCallback(event);
 		});
-
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

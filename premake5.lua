@@ -13,8 +13,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Gemstone/vendor/GLFW/include"
+IncludeDir["Glad"] = "Gemstone/vendor/Glad/include"
+IncludeDir["ImGui"] = "Gemstone/vendor/ImGui"
 
-include "Gemstone/vendor/GLFW"
+include "Gemstone/vendor/GLFW"  -- include a premake file in the other location
+include "Gemstone/vendor/Glad"
+include "Gemstone/vendor/ImGui"
 
 project "Gemstone"
     location "Gemstone"
@@ -27,43 +31,52 @@ project "Gemstone"
     pchheader "gspch.h"
     pchsource "%{prj.name}/src/gspch.cpp"
 
-    files
+    files -- files included in the project
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
     }
 
-    includedirs
+    includedirs -- additional include directories
     {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
 
-    links
+    links -- additional dependencies
     {
-        "GLFW",
-        "opengl32.lib"
+        "GLFW",         -- reference to project in the same solution
+        "Glad",
+        "ImGui",
+        "opengl32.lib"  -- library
     }
 
-    filter "system:windows"
+    filter "system:windows" -- project properties
         cppdialect "C++17"
         staticruntime "On"
-        systemversion "latest"
+        systemversion "latest"  -- windows SDK version
 
         defines
         {
             "GS_PLATFORM_WINDOWS",
-            "GS_BUILD_DLL"
+            "GS_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
-        postbuildcommands
+        postbuildcommands   -- DLL file in Engine project moves to Client project
         {
             ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sapphire")
         }
 
     filter "configurations:Debug"
-        defines "GS_DEBUG"
+        defines
+        {
+            "GS_DEBUG",
+            "GS_ENABLE_ASSERTS"
+        }
         buildoptions "/MDd"
         symbols "On"
 
@@ -100,7 +113,7 @@ project "Sapphire"
 
     links
     {
-        "Gemstone"
+        "Gemstone"  -- reference to project in the same solution
     }
 
     filter "system:windows"
@@ -114,7 +127,11 @@ project "Sapphire"
         }
 
     filter "configurations:Debug"
-        defines "GS_DEBUG"
+        defines
+        {
+            "GS_DEBUG",
+            "GS_ENABLE_ASSERTS"
+        }
         buildoptions "/MDd"
         symbols "On"
 

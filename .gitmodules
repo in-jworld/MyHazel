@@ -7,3 +7,6 @@
 [submodule "Gemstone/vendor/imgui"]
 	path = Gemstone/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "Gemstone/vendor/glm"]
+	path = Gemstone/vendor/glm
+	url = https://github.com/g-truc/glm

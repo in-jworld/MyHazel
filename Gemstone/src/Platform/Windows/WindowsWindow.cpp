@@ -5,7 +5,9 @@
 #include "Gemstone/Events/KeyEvent.h"
 #include "Gemstone/Events/MouseEvent.h"
 
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Gemstone
 {
@@ -48,9 +50,9 @@ namespace Gemstone
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		GS_CORE_ASSERT(status, "Failed to initialize Glad!");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+		
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -149,7 +151,7 @@ namespace Gemstone
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

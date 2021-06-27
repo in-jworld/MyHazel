@@ -1,5 +1,7 @@
 #include <Gemstone.h>
 
+#include <ImGui/imgui.h>
+
 class ExampleLayer : public Gemstone::Layer
 {
 public:
@@ -8,9 +10,16 @@ public:
 	{
 	}
 
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
+
 	void OnUpdate() override
 	{
-		GS_INFO("ExampleLayer::Update");
+		//GS_INFO("ExampleLayer::Update");
 	}
 
 	void OnEvent(Gemstone::Event& event) override
@@ -20,8 +29,8 @@ public:
 			Gemstone::KeyPressedEvent& e = (Gemstone::KeyPressedEvent&)event;
 			GS_TRACE("{0}, {1}", event, (char)e.GetKeyCode());
 		}
-		else
-			GS_TRACE("{0}", event);
+		/*else
+			GS_TRACE("{0}", event);*/
 	}
 };
 
@@ -31,7 +40,6 @@ public:
 	Sapphire()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Gemstone::ImGuiLayer());
 	}
 
 	~Sapphire()

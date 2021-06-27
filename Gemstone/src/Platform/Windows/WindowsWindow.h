@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Gemstone/Core/Window.h"
+#include "Gemstone/Renderer/GrahpicsContext.h"
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace Gemstone
 {
@@ -28,6 +29,7 @@ namespace Gemstone
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

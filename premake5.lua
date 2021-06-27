@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Gemstone/vendor/GLFW/include"
 IncludeDir["Glad"] = "Gemstone/vendor/Glad/include"
 IncludeDir["ImGui"] = "Gemstone/vendor/ImGui"
+IncludeDir["glm"] = "Gemstone/vendor/glm"
 
 include "Gemstone/vendor/GLFW"  -- include a premake file in the other location
 include "Gemstone/vendor/Glad"
@@ -22,8 +23,10 @@ include "Gemstone/vendor/ImGui"
 
 project "Gemstone"
     location "Gemstone"
-    kind "SharedLib"
+    kind "StaticLib"
+    staticruntime "On"
     language "C++"
+    cppdialect "C++17"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -34,7 +37,14 @@ project "Gemstone"
     files -- files included in the project
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.hpp",
+        "%{prj.name}/vendor/glm/glm/**.inl"
+    }
+
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     includedirs -- additional include directories
@@ -43,7 +53,8 @@ project "Gemstone"
         "%{prj.name}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
     links -- additional dependencies
@@ -55,8 +66,6 @@ project "Gemstone"
     }
 
     filter "system:windows" -- project properties
-        cppdialect "C++17"
-        staticruntime "Off"
         systemversion "latest"  -- windows SDK version
 
         defines
@@ -66,16 +75,13 @@ project "Gemstone"
             "GLFW_INCLUDE_NONE"
         }
 
-        postbuildcommands   -- DLL file in Engine project moves to Client project
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sapphire")
-        }
+        --postbuildcommands   -- DLL file in Engine project moves to Client project
+        --{
+        --    ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sapphire")
+        --}
 
     filter "configurations:Debug"
-        defines
-        {
-            "GS_DEBUG"
-        }
+        defines "GS_DEBUG"
         runtime "Debug"
         symbols "On"
 
@@ -93,7 +99,9 @@ project "Gemstone"
 project "Sapphire"
     location "Sapphire"
     kind "ConsoleApp"
+    staticruntime "On"
     language "C++"
+    cppdialect "C++17"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -107,7 +115,9 @@ project "Sapphire"
     includedirs
     {
         "Gemstone/vendor/spdlog/include",
-        "Gemstone/src"
+        "Gemstone/src",
+        "Gemstone/vendor",
+        "%{IncludeDir.glm}"
     }
 
     links
@@ -116,8 +126,6 @@ project "Sapphire"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "Off"
         systemversion "latest"
 
         defines
@@ -128,8 +136,7 @@ project "Sapphire"
     filter "configurations:Debug"
         defines
         {
-            "GS_DEBUG",
-            "GS_ENABLE_ASSERTS"
+            "GS_DEBUG"
         }
         runtime "Debug"
         symbols "On"

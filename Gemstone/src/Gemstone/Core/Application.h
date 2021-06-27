@@ -6,6 +6,11 @@
 #include "Gemstone/Events/ApplicationEvent.h"
 #include "LayerStack.h"
 
+#include "Gemstone/ImGui/ImGuiLayer.h"
+
+#include "Gemstone/Renderer/Shader.h"
+#include "Gemstone/Renderer/Buffer.h"
+
 namespace Gemstone
 {
 	class GEMSTONE_API Application
@@ -27,8 +32,14 @@ namespace Gemstone
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		unsigned int m_VertexArray;
+		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 	private:
 		static Application* s_Instance;
 	};

@@ -1,4 +1,5 @@
 #pragma once
+#include "gspch.h"
 
 #include "Core.h"
 #include "Gemstone/Events/Event.h"

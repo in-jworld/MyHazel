@@ -4,6 +4,7 @@
 
 #include "Gemstone/Core/Application.h"
 #include "Gemstone/Core/Layer.h"
+#include "Gemstone/Core/Core.h"
 #include "Gemstone/Core/Log.h"
 
 #include "Gemstone/Core/Input.h"

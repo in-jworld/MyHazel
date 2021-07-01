@@ -17,9 +17,11 @@ IncludeDir["Glad"] = "Gemstone/vendor/Glad/include"
 IncludeDir["ImGui"] = "Gemstone/vendor/ImGui"
 IncludeDir["glm"] = "Gemstone/vendor/glm"
 
-include "Gemstone/vendor/GLFW"  -- include a premake file in the other location
-include "Gemstone/vendor/Glad"
-include "Gemstone/vendor/ImGui"
+group "Dependencies"
+    include "Gemstone/vendor/GLFW"  -- include a premake file in the other location
+    include "Gemstone/vendor/Glad"
+    include "Gemstone/vendor/ImGui"
+group ""
 
 project "Gemstone"
     location "Gemstone"
@@ -134,10 +136,7 @@ project "Sapphire"
         }
 
     filter "configurations:Debug"
-        defines
-        {
-            "GS_DEBUG"
-        }
+        defines "GS_DEBUG"
         runtime "Debug"
         symbols "On"
 

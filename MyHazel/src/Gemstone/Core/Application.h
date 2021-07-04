@@ -3,15 +3,13 @@
 #include "Core.h"
 
 #include "Window.h"
+#include "LayerStack.h"
+#include "Timestep.h"
+
 #include "Gemstone/Events/Event.h"
 #include "Gemstone/Events/ApplicationEvent.h"
-#include "LayerStack.h"
 
 #include "Gemstone/ImGui/ImGuiLayer.h"
-
-#include "Gemstone/Renderer/Shader.h"
-#include "Gemstone/Renderer/Buffer.h"
-#include "Gemstone/Renderer/VertexArray.h"
 
 namespace Gemstone
 {
@@ -32,18 +30,12 @@ namespace Gemstone
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		//unsigned int m_VertexArray;
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_Shader2;
-		std::shared_ptr<VertexArray> m_SquareVA;
+		float m_LastFrameTime = 0.f;
 	private:
 		static Application* s_Instance;
 	};

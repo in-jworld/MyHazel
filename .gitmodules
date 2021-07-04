@@ -1,12 +1,12 @@
 [submodule "Gemstone/vendor/spdlog"]
-	path = Gemstone/vendor/spdlog
+	path = MyHazel/vendor/spdlog
 	url = https://github.com/gabime/spdlog
 [submodule "Gemstone/vendor/GLFW"]
-	path = Gemstone/vendor/GLFW
+	path = MyHazel/vendor/GLFW
 	url = https://github.com/thecherno/glfw
 [submodule "Gemstone/vendor/imgui"]
-	path = Gemstone/vendor/imgui
+	path = MyHazel/vendor/imgui
 	url = https://github.com/TheCherno/imgui
 [submodule "Gemstone/vendor/glm"]
-	path = Gemstone/vendor/glm
+	path = MyHazel/vendor/glm
 	url = https://github.com/g-truc/glm

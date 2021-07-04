@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Timestep.h"
 #include "Gemstone/Events/Event.h"
 
 namespace Gemstone
@@ -14,7 +15,7 @@ namespace Gemstone
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

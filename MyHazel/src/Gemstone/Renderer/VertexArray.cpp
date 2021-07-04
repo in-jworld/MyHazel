@@ -23,21 +23,5 @@ namespace Gemstone
 		GS_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
-
-	void VertexArray::Bind() const
-	{	 
-	}	 
-		 
-	void VertexArray::Unbind() const
-	{	 
-	}	 
-		 
-	void VertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& VertexBuffer)
-	{	 
-	}	 
-		 
-	void VertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& IndexBuffer)
-	{
-	}
 }
 
